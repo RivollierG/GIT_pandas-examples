@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Who ?'
+__author__ = 'V1cent'
 
 import pandas as pd
 import numpy as np
@@ -7,15 +7,15 @@ import numpy as np
 # Load Data
 userHeader = ['user_id', 'gender', 'age', 'ocupation', 'zip']
 users = pd.read_csv('dataSet/users.txt', engine='python',
-                    sep='::', header=None, names=userHeader)
+                    sep='::', header=None, names=userHeader, encoding='ISO-8859-1')
 
 movieHeader = ['movie_id', 'title', 'genders']
 movies = pd.read_csv('dataSet/movies.txt', engine='python',
-                     sep='::', header=None, names=movieHeader)
+                     sep='::', header=None, names=movieHeader, encoding='ISO-8859-1')
 
 ratingHeader = ['user_id', 'movie_id', 'rating', 'timestamp']
 ratings = pd.read_csv('dataSet/ratings.txt', engine='python',
-                      sep='::', header=None, names=ratingHeader)
+                      sep='::', header=None, names=ratingHeader, encoding='ISO-8859-1')
 
 # Merge data
 mergeRatings = pd.merge(pd.merge(users, ratings), movies)
@@ -24,7 +24,7 @@ mergeRatings = pd.merge(pd.merge(users, ratings), movies)
 
 
 def cloneDF(df):
-    return pd.DataFrame(df.values.copy(), df.index.copy(), df.columns.copy()).convert_objects(convert_numeric=True)
+    return pd.DataFrame(df.values.copy(), df.index.copy(), df.columns.copy())
 
 
 # Show Films with more votes. (groupby + sorted)
@@ -53,13 +53,13 @@ print('\n==================================================================\n')
 # Show data ratings movies, applying a function (groupby + lambda function)
 myAvg = cloneDF(mergeRatings)
 myAvg = myAvg.groupby(['movie_id', 'title'])['rating'].agg(
-    {'SUM': np.sum, 'COUNT': np.size, 'AVG': np.mean, 'myAVG': lambda x: x.sum() / float(x.count())})
+    SUM=np.sum, COUNT=np.size, AVG= np.mean, myAVG= lambda x: x.sum() / float(x.count()))
 print('My info ratings: \n%s' % myAvg[:10])
 print('\n==================================================================\n')
 
 
 # Sort data ratings by created field (groupby + lambda function + sorted)
-sortRatingsField = cloneDF(mergeRatings)
-sortRatingsField = sortRatingsField.groupby(['movie_id', 'title'])['rating'].agg(
-    {'COUNT': np.size, 'myAVG': lambda x: x.sum() / float(x.count())}).sort('COUNT', ascending=False)
+sortRatingsField_V1cent = cloneDF(mergeRatings)
+youpi = sortRatingsField.groupby(['movie_id', 'title'])['rating'].agg(
+    COUNT= np.size, myAVG=lambda x: x.sum() / float(x.count())).sort_values('COUNT', ascending=False)
 print('My info sorted: \n%s' % sortRatingsField[:15])
