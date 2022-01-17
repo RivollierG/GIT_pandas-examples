@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Guillaume Rivollier'
+__author__ = 'Don Diego de la Vega'
 
 import pandas as pd
 
